@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Grep:</b>
+  <%= @raw.grep_id %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%= @raw.date %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%= @raw.value %>
+</p>
+
+
+<%= link_to 'Edit', edit_raw_path(@raw) %> |
+<%= link_to 'Back', raws_path %>

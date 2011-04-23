@@ -1,0 +1,27 @@
+<h1>Listing raws</h1>
+
+<table>
+  <tr>
+    <th>Grep</th>
+    <th>Date</th>
+    <th>Value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @raws.each do |raw| %>
+  <tr>
+    <td><%= raw.grep_id %></td>
+    <td><%= raw.date %></td>
+    <td><%= raw.value %></td>
+    <td><%= link_to 'Show', raw %></td>
+    <td><%= link_to 'Edit', edit_raw_path(raw) %></td>
+    <td><%= link_to 'Destroy', raw, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Raw', new_raw_path %>

@@ -1,0 +1,28 @@
+<%= javascript_include_tag "flot/jquery" %>
+<%= javascript_include_tag "flot/jquery.flot" %>
+
+<script>
+
+	$(function () {
+		<% @g.each do |grep_name, pages| %>
+			$.plot($("#graph_<%= grep_name %>"), [
+			
+			<% pages.each do |page_name, values| %>
+				{ label: "<%= page_name %>", data: [
+				<%= values.collect {|raw| "[#{raw.date.to_time.to_i}000, #{raw.value}]"}.join(", ") %>
+				]},
+			<% end %>
+			]
+			
+			, { xaxis: { mode: "time" }});
+			
+		<% end %>
+	});
+</script>
+
+<% @g.each do |grep_name, pages| %>
+	<h1><%= grep_name %></h1>
+	<div id="graph_<%= grep_name %>" style="width:1000px;height:600px;"></div>
+	<br />
+	<br />
+<% end %>

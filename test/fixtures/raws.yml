@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  grep_id: 1
+  date: 2011-04-17
+  value: 1
+
+two:
+  grep_id: 1
+  date: 2011-04-17
+  value: 1

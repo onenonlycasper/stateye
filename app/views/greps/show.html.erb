@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @grep.name %>
+</p>
+
+<p>
+  <b>Search:</b>
+  <%= @grep.search %>
+</p>
+
+
+<%= link_to 'Edit', edit_grep_path(@grep) %> |
+<%= link_to 'Back', greps_path %>
