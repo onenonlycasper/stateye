@@ -5,17 +5,54 @@
 
 	$(function () {
 		<% @g.each do |grep_name, pages| %>
-			$.plot($("#graph_<%= grep_name %>"), [
-			
+			var datasets_<%= grep_name %> = {
 			<% pages.each do |page_name, values| %>
-				{ label: "<%= page_name %>", data: [
+				"<%= page_name %>": {
+				label: "<%= page_name %>",
+				data: [
 				<%= values.collect {|raw| "[#{raw.date.to_time.to_i}000, #{raw.value}]"}.join(", ") %>
-				]},
+				]
+				},
 			<% end %>
-			]
+			};
 			
-			, { xaxis: { mode: "time" }});
 			
+			// hard-code color indices to prevent them from shifting as
+		    // countries are turned on/off
+		    var i = 0;
+		    $.each(datasets_<%= grep_name %>, function(key, val) {
+		        val.color = i;
+		        ++i;
+		    });
+
+		    // insert checkboxes 
+		    var choiceContainer_<%= grep_name %> = $("#choices_<%= grep_name %>");
+		    $.each(datasets_<%= grep_name %>, function(key, val) {
+		        choiceContainer_<%= grep_name %>.append('<br/><input type="checkbox" name="' + key +
+		                               '" checked="checked" id="id' + key + '">' +
+		                               '<label for="id' + key + '">'
+		                                + val.label + '</label>');
+		    });
+		    choiceContainer_<%= grep_name %>.find("input").click(plotAccordingToChoices_<%= grep_name %>);
+
+
+		    function plotAccordingToChoices_<%= grep_name %>() {
+		        var data = [];
+
+		        choiceContainer_<%= grep_name %>.find("input:checked").each(function () {
+		            var key = $(this).attr("name");
+		            if (key && datasets_<%= grep_name %>[key])
+		                data.push(datasets_<%= grep_name %>[key]);
+		        });
+
+		        if (data.length > 0)
+		            $.plot($("#graph_<%= grep_name %>"), data, {
+						xaxis: { mode: "time" }
+		            });
+		    }
+
+		    plotAccordingToChoices_<%= grep_name %>();
+
 		<% end %>
 	});
 </script>
@@ -23,6 +60,7 @@
 <% @g.each do |grep_name, pages| %>
 	<h1><%= grep_name %></h1>
 	<div id="graph_<%= grep_name %>" style="width:1000px;height:600px;"></div>
+	<p id="choices_<%= grep_name %>">Show:</p>
 	<br />
 	<br />
 <% end %>
