@@ -1,7 +1,7 @@
 desc "Collect latest stats"
 require "net/https"
 
-task :update => :environment do
+task :cron => :environment do
   greps = Grep.all
   pages = Page.all
   
